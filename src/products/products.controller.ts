@@ -1,36 +1,48 @@
 import { Controller, Get, Post, HttpCode, Body, Delete } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { ProductTypes } from './products.interfaces';
+import { ProductModelAPI, ProductTypes } from './products.interfaces';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiTags,
+  ApiProperty,
+} from '@nestjs/swagger';
 
-type getProducts = {
+interface ReturnDataProductsType {
   data: ProductTypes[];
-};
+}
 
+class ReturnDataProductsAPI implements ReturnDataProductsType {
+  @ApiProperty({ type: [ProductModelAPI] })
+  data: ProductTypes[];
+}
+
+@ApiTags('products')
 @Controller()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  @HttpCode(200)
-  getAll(): getProducts {
-    return this.responseDefault();
+  @HttpCode(201)
+  @ApiCreatedResponse({ type: ReturnDataProductsAPI })
+  getAll(): ReturnDataProductsType {
+    return { data: this.productsService.getAll() };
   }
 
   @Post()
-  @HttpCode(200)
-  create(@Body() product: ProductTypes): getProducts {
+  @HttpCode(201)
+  @ApiBody({ type: ProductModelAPI })
+  @ApiCreatedResponse({ type: ReturnDataProductsAPI })
+  create(@Body() product: ProductTypes): ReturnDataProductsType {
     this.productsService.create(product);
-    return this.responseDefault();
+    return { data: this.productsService.getAll() };
   }
 
   @Delete()
-  @HttpCode(200)
-  delete(): getProducts {
+  @HttpCode(201)
+  @ApiCreatedResponse({ type: ReturnDataProductsAPI })
+  delete(): ReturnDataProductsType {
     this.productsService.delete();
-    return this.responseDefault();
-  }
-
-  responseDefault(): getProducts {
     return { data: this.productsService.getAll() };
   }
 }

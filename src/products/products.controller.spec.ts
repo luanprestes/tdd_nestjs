@@ -42,17 +42,19 @@ describe('ProductsController', () => {
   });
 
   it(`/GET`, () => {
-    const productsService = new ProductsServiceSpy();
-    return request(app.getHttpServer()).get('/').expect(200).expect({
-      data: productsService.getAll(),
-    });
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(201)
+      .expect({
+        data: [{ name: 'Example Product', price: 0.8 }],
+      });
   });
 
   it(`/POST`, () => {
     return request(app.getHttpServer())
       .post('/')
       .send({ name: 'Teste', price: 0.6 })
-      .expect(200)
+      .expect(201)
       .expect({
         data: [
           { name: 'Example Product', price: 0.8 },
@@ -62,7 +64,7 @@ describe('ProductsController', () => {
   });
 
   it(`/DELETE`, () => {
-    return request(app.getHttpServer()).delete('/').expect(200).expect({
+    return request(app.getHttpServer()).delete('/').expect(201).expect({
       data: [],
     });
   });
