@@ -1,4 +1,4 @@
-import { IProductsImplements } from '../products.interfaces';
+import { IProductsImplements } from '../interfaces';
 import { ProductEntity } from '../entities/Product';
 
 export class ProductsServiceSpy implements IProductsImplements {

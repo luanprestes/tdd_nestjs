@@ -13,14 +13,11 @@ import {
   ProductModelAPI,
   ReturnDataProductsAPI,
   ReturnDeletedProductAPI,
-} from './products.documents';
+} from './documents';
 
 import { ProductDto } from './dtos/products.dto';
 
-import {
-  IReturnDataProducts,
-  IReturnProductDeleted,
-} from './products.interfaces';
+import { IReturnDataProducts, IReturnProductDeleted } from './interfaces';
 
 import { ProductsService } from './products.service';
 import { ProductEntity } from './entities/Product';
