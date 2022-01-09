@@ -28,7 +28,7 @@ describe('ProductsController', () => {
   it(`/GET`, () => {
     return request(app.getHttpServer())
       .get('/')
-      .expect(201)
+      .expect(200)
       .expect({
         data: [{ name: 'Example Product', price: 0.8 }],
       });
@@ -48,7 +48,7 @@ describe('ProductsController', () => {
   });
 
   it(`/DELETE`, () => {
-    return request(app.getHttpServer()).delete('/').expect(201).expect({
+    return request(app.getHttpServer()).delete('/').expect(200).expect({
       data: [],
     });
   });

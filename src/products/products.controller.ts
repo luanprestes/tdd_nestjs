@@ -11,37 +11,37 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Get()
-  @HttpCode(200)
   @ApiResponse({
     status: 200,
     type: ReturnDataProductsAPI,
     description: 'Successfully in get all products.',
   })
+  @Get()
+  @HttpCode(200)
   getAll(): IReturnDataProducts {
     return { data: this.productsService.getAll() };
   }
 
-  @Post()
-  @HttpCode(201)
   @ApiBody({ type: ProductModelAPI })
   @ApiResponse({
     status: 201,
     type: ReturnDataProductsAPI,
     description: 'Successfully in create new product.',
   })
+  @Post()
+  @HttpCode(201)
   create(@Body() product: ProductEntity): IReturnDataProducts {
     this.productsService.create(product);
     return { data: this.productsService.getAll() };
   }
 
-  @Delete()
-  @HttpCode(204)
   @ApiResponse({
-    status: 204,
+    status: 200,
     type: ReturnDataProductsAPI,
     description: 'Successfully in delete product.',
   })
+  @Delete()
+  @HttpCode(200)
   delete(): IReturnDataProducts {
     this.productsService.delete();
     return { data: this.productsService.getAll() };
