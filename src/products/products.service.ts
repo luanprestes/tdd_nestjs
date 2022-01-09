@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { ProductsImplements, ProductTypes } from './products.interfaces';
+import { IProductsImplements } from './products.interfaces';
+import { ProductEntity } from './products.entity';
 
 @Injectable()
-export class ProductsService implements ProductsImplements {
-  products: ProductTypes[] = [];
+export class ProductsService implements IProductsImplements {
+  products: ProductEntity[] = [];
 
-  getAll(): ProductTypes[] {
+  getAll(): ProductEntity[] {
     return this.products;
   }
 
-  create(product: ProductTypes): void {
+  create(product: ProductEntity): void {
     this.products.push(product);
   }
 

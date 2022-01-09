@@ -2,28 +2,12 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 
-import { ProductsModule } from './products.module';
-import { ProductsService } from './products.service';
-import { ProductsImplements, ProductTypes } from './products.interfaces';
+import { ProductsModule } from '../products.module';
+import { ProductsService } from '../products.service';
+import { ProductsServiceSpy } from './products.spy';
 
 describe('ProductsController', () => {
   let app: INestApplication;
-
-  class ProductsServiceSpy implements ProductsImplements {
-    products: ProductTypes[] = [{ name: 'Example Product', price: 0.8 }];
-
-    getAll(): ProductTypes[] {
-      return this.products;
-    }
-
-    create(product: ProductTypes): void {
-      this.products.push(product);
-    }
-
-    delete(): void {
-      this.products.splice(0, 1);
-    }
-  }
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({

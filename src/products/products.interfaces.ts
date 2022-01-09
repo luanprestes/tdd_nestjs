@@ -1,21 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ProductEntity } from './products.entity';
 
-export interface ProductTypes {
-  name: string;
-  price: number;
-}
-
-export class ProductModelAPI implements ProductTypes {
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  price: number;
-}
-
-export interface ProductsImplements {
-  products: ProductTypes[];
-  getAll: () => ProductTypes[];
-  create: (product: ProductTypes) => void;
+export interface IProductsImplements {
+  products: ProductEntity[];
+  getAll: () => ProductEntity[];
+  create: (product: ProductEntity) => void;
   delete: () => void;
+}
+
+export interface IReturnDataProducts {
+  data: ProductEntity[];
 }
