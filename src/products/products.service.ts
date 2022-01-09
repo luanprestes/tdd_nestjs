@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IProductsImplements } from './products.interfaces';
-import { ProductEntity } from './products.entity';
+import { ProductEntity } from './entities/Product';
 
 @Injectable()
 export class ProductsService implements IProductsImplements {
@@ -10,11 +10,15 @@ export class ProductsService implements IProductsImplements {
     return this.products;
   }
 
-  create(product: ProductEntity): void {
-    this.products.push(product);
+  create(product: ProductEntity): ProductEntity {
+    const newProduct = new ProductEntity(product);
+    this.products.push(newProduct);
+    return newProduct;
   }
 
-  delete(): void {
-    this.products.splice(0, 1);
+  delete(id: string): boolean {
+    const productFinded = this.products.find((product) => product.id === id);
+    this.products = this.products.filter((product) => product.id !== id);
+    return Boolean(productFinded);
   }
 }

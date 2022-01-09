@@ -1,10 +1,29 @@
-import { Controller, Get, Post, HttpCode, Body, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  HttpCode,
+  Body,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiBody, ApiTags, ApiResponse } from '@nestjs/swagger';
 
-import { ProductModelAPI, ReturnDataProductsAPI } from './products.documents';
-import { ProductEntity } from './products.entity';
-import { IReturnDataProducts } from './products.interfaces';
+import {
+  ProductModelAPI,
+  ReturnDataProductsAPI,
+  ReturnDeletedProductAPI,
+} from './products.documents';
+
+import { ProductDto } from './dtos/products.dto';
+
+import {
+  IReturnDataProducts,
+  IReturnProductDeleted,
+} from './products.interfaces';
+
 import { ProductsService } from './products.service';
+import { ProductEntity } from './entities/Product';
 
 @ApiTags('products')
 @Controller()
@@ -25,25 +44,26 @@ export class ProductsController {
   @ApiBody({ type: ProductModelAPI })
   @ApiResponse({
     status: 201,
-    type: ReturnDataProductsAPI,
+    type: ProductModelAPI,
     description: 'Successfully in create new product.',
   })
   @Post()
   @HttpCode(201)
-  create(@Body() product: ProductEntity): IReturnDataProducts {
-    this.productsService.create(product);
-    return { data: this.productsService.getAll() };
+  create(@Body() product: ProductDto): ProductEntity {
+    const newProduct = this.productsService.create(product);
+    return newProduct;
   }
 
   @ApiResponse({
     status: 200,
-    type: ReturnDataProductsAPI,
+    type: ReturnDeletedProductAPI,
     description: 'Successfully in delete product.',
   })
-  @Delete()
+  @Delete(':id')
   @HttpCode(200)
-  delete(): IReturnDataProducts {
-    this.productsService.delete();
-    return { data: this.productsService.getAll() };
+  delete(@Param('id') id: string): IReturnProductDeleted {
+    return {
+      deleted: this.productsService.delete(id),
+    };
   }
 }

@@ -30,7 +30,13 @@ describe('ProductsController', () => {
       .get('/')
       .expect(200)
       .expect({
-        data: [{ name: 'Example Product', price: 0.8 }],
+        data: [
+          {
+            id: '370bab01-8dfc-4bbb-bb47-dce5e124aa9b',
+            name: 'Example Product',
+            price: 0.8,
+          },
+        ],
       });
   });
 
@@ -40,16 +46,18 @@ describe('ProductsController', () => {
       .send({ name: 'Teste', price: 0.6 })
       .expect(201)
       .expect({
-        data: [
-          { name: 'Example Product', price: 0.8 },
-          { name: 'Teste', price: 0.6 },
-        ],
+        id: '35426a89-7d94-4f46-a3c0-ff9ff233b8d0',
+        name: 'Teste',
+        price: 0.6,
       });
   });
 
   it(`/DELETE`, () => {
-    return request(app.getHttpServer()).delete('/').expect(200).expect({
-      data: [],
-    });
+    return request(app.getHttpServer())
+      .delete(`/370bab01-8dfc-4bbb-bb47-dce5e124aa9b`)
+      .expect(200)
+      .expect({
+        deleted: true,
+      });
   });
 });
